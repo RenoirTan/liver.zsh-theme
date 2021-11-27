@@ -2,6 +2,12 @@
 
 This is pretty much just [liver](https://github.com/RenoirTan/liver) but for zsh.
 
+## Screenshots
+
+![Normal Prompt](https://raw.githubusercontent.com/RenoirTan/liver.zsh-theme/screenshots/normal.png)
+
+![Git Repo Prompt](https://raw.githubusercontent.com/RenoirTan/liver.zsh-theme/screenshots/git-repo.png)
+
 ## Installation
 
 Make sure that [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) has been installed.
@@ -14,6 +20,6 @@ You can override some of the icons, colours and outputs to something that you li
 
 ## Problems
 
- - Cannot make RPROMPT multiline for some reason. It just does not show RPROMPT if it straddles more than 1 line.
+ - Cannot make RPROMPT multiline for some reason. It just does not show RPROMPT if it straddles more than 1 line. However, if zsh is spawned in a git repo, vcs_info output gets shown.
 
  - When I *cd* into a local git repository, vcs_info output does not show itself in the prompt. It's supposed to between the top line and the bottom line of the prompt.
