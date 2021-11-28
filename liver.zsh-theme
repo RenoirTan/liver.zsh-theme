@@ -102,15 +102,15 @@ zl_segment_vcsbranch() {
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:git*' actionformats "%b"
     vcs_info
-    if [[ ! -z ${vcs_info_msg_0_} ]]; then
-        zl_add_left_segment $ZL_VCSBRANCH_SFG $ZL_VCSBRANCH_SBG $ZL_VCSBRANCH_FG $ZL_VCSBRANCH_BG "$ZL_VCSBRANCH_ICON ${vcs_info_msg_0_}"
+    if [[ ! -z $vcs_info_msg_0_ ]]; then
+        zl_add_left_segment $ZL_VCSBRANCH_SFG $ZL_VCSBRANCH_SBG $ZL_VCSBRANCH_FG $ZL_VCSBRANCH_BG "$ZL_VCSBRANCH_ICON $vcs_info_msg_0_"
     fi
 }
 
 zl_gen_leftvcs_prompt() {
     autoload -Uz vcs_info
     local vcs_output
-    vcs_output="${vcs_output}$(zl_segment_vcsbranch)"
+    vcs_output="$vcs_output$(zl_segment_vcsbranch)"
     if [[ ! -z $vcs_output ]]; then
         zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTMIDDLEBEGIN
         echo -n $vcs_output
@@ -202,5 +202,5 @@ zl_make_configs
 get_ssh_url() {
 }
 
-PROMPT="$(zl_gen_prompt)"
+PROMPT='$(zl_gen_prompt)'
 #RPROMPT="$(zl_gen_rprompt)"
