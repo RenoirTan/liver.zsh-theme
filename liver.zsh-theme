@@ -117,10 +117,34 @@ zl_segment_vcsbranch() {
     fi
 }
 
+zl_segment_vcspath() {
+    zstyle ':vcs_info:*' enable git svn hg
+    zstyle ':vcs_info:git*' formats "%S"
+    vcs_info
+    if [[ ! -z $vcs_info_msg_0_ ]]; then
+        zl_add_left_segment $ZL_VCSPATH_SFG $ZL_VCSPATH_SBG $ZL_VCSPATH_FG $ZL_VCSPATH_BG "$ZL_VCSPATH_ICON $vcs_info_msg_0_"
+    fi
+}
+
+zl_segment_vcsmeta() {
+    zstyle ':vcs_info:*' enable git svn hg
+    zstyle ':vcs_info:*' get-revision true
+    zstyle ':vcs_info:*' check-for-changes true
+    zstyle ':vcs_info:git*' formats "%u%c"
+    zstyle ':vcs_info:*' stagedstr $ZL_VCSMETA_STAGED_ICON
+    zstyle ':vcs_info:*' unstagedstr $ZL_VCSMETA_UNSTAGED_ICON
+    vcs_info
+    if [[ ! -z $vcs_info_msg_0_ ]]; then
+        zl_add_left_segment $ZL_VCSMETA_SFG $ZL_VCSMETA_SBG $ZL_VCSMETA_FG $ZL_VCSMETA_BG "$ZL_VCSMETA_ICON $vcs_info_msg_0_"
+    fi
+}
+
 zl_gen_leftvcs_prompt() {
     local vcs_output
     vcs_output="$vcs_output$(zl_segment_vcssystem)"
     vcs_output="$vcs_output$(zl_segment_vcsbranch)"
+    vcs_output="$vcs_output$(zl_segment_vcspath)"
+    vcs_output="$vcs_output$(zl_segment_vcsmeta)"
     if [[ ! -z $vcs_output ]]; then
         zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTMIDDLEBEGIN
         echo -n $vcs_output
@@ -210,6 +234,21 @@ zl_make_configs() {
     zl_make_default ZL_VCSBRANCH_BG green
     zl_make_default ZL_VCSBRANCH_SFG magenta
     zl_make_default ZL_VCSBRANCH_SBG !
+
+    zl_make_default ZL_VCSPATH_ICON ⤇
+    zl_make_default ZL_VCSPATH_FG white
+    zl_make_default ZL_VCSPATH_BG blue
+    zl_make_default ZL_VCSPATH_SFG magenta
+    zl_make_default ZL_VCSPATH_SBG !
+    
+    zl_make_default ZL_VCSMETA_ICON 🛈
+    zl_make_default ZL_VCSMETA_FG white
+    zl_make_default ZL_VCSMETA_BG magenta
+    zl_make_default ZL_VCSMETA_SFG magenta
+    zl_make_default ZL_VCSMETA_SBG !
+    
+    zl_make_default ZL_VCSMETA_UNSTAGED_ICON +
+    zl_make_default ZL_VCSMETA_STAGED_ICON ✓
 }
 
 zl_make_configs
