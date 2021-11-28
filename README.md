@@ -16,7 +16,7 @@ Then, copy the `liver.zsh-theme` file to `~/.oh-my-zsh/themes` and set `ZSH_THEM
 
 ## Further customisation
 
-You can override some of the icons, colours and outputs to something that you like by setting the corresponding variable in `~/.zshrc` to override the defaults used in my theme. However, because I don't have time to document my code yet, you may have to guess what the variables in `zl_make_configs()` mean.
+You can override some of the icons, colours and outputs to something that you like by setting the corresponding variable in `~/.zshrc` to override the defaults used in my theme. You can check out which variables you can override in the `zl_make_configs` function.
 
 ## Problems
 
