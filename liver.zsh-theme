@@ -336,8 +336,5 @@ zl_make_configs() {
 
 zl_make_configs
 
-get_ssh_url() {
-}
-
 PROMPT='$(zl_gen_prompt)'
 #RPROMPT="$(zl_gen_rprompt)"
