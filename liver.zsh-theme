@@ -206,6 +206,13 @@ zl_gen_rprompt() {
     zl_gen_rightdown_prompt
 }
 
+# Generate the full prompt (final result).
+zl_gen_full_prompt() {
+    zl_make_configs
+    PROMPT='$(zl_gen_prompt)'
+    #RPROMPT='$(zl_gen_rprompt)'
+}
+
 # Function to fill in default configurations if they have not been overridden somewhere else.
 zl_make_configs() {
 
@@ -339,7 +346,4 @@ zl_make_configs() {
     zl_make_default ZL_VCSMETA_STAGED_ICON ✓
 }
 
-zl_make_configs
-
-PROMPT='$(zl_gen_prompt)'
-#RPROMPT="$(zl_gen_rprompt)"
+zl_gen_full_prompt
