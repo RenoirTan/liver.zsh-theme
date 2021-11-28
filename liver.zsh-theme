@@ -251,7 +251,12 @@ zl_make_configs() {
     zl_make_default ZL_USERNAME_BG !
     # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your username.
     zl_make_default ZL_USERNAME_SFG magenta
-    # Background colour for ZL_SEGMEPstname.
+    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your username.
+    zl_make_default ZL_USERNAME_SBG !
+
+    # Icon at the start of the segment that displays your hostname.
+    zl_make_default ZL_HOSTNAME_ICON 🖵
+    # Foreground colour for your hostname.
     zl_make_default ZL_HOSTNAME_FG red
     # Background colour for your hostname.
     zl_make_default ZL_HOSTNAME_BG !
