@@ -163,9 +163,6 @@ zl_make_configs() {
     zl_make_default ZL_BASE_BG !
     zl_make_default ZL_POINTER_FG green
     zl_make_default ZL_POINTER_BG !
-    
-    zl_make_default ZL_USER_PROMPTTOKEN \$
-    zl_make_default ZL_ROOT_PROMPTTOKEN \#
 
     zl_make_default ZL_USERNAME_ICON ⚉
     zl_make_default ZL_USERNAME_FG cyan
@@ -185,6 +182,8 @@ zl_make_configs() {
     zl_make_default ZL_PATH_SFG magenta
     zl_make_default ZL_PATH_SBG !
     
+    zl_make_default ZL_USER_PROMPTTOKEN \$
+    zl_make_default ZL_ROOT_PROMPTTOKEN \#
     zl_make_default ZL_PROMPTTOKEN_FG white
     zl_make_default ZL_PROMPTTOKEN_BG !
     zl_make_default ZL_PROMPTTOKEN_SFG magenta
