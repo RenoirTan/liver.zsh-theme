@@ -1,6 +1,7 @@
 # I hate shell script
 
 autoload -U colors && colors
+autoload -Uz vcs_info
 
 zl_make_default() {
     if [[ -z $(eval echo \$$(echo $1)) ]]; then
@@ -98,9 +99,18 @@ zl_gen_leftdown_prompt() {
     zl_segment_prompttoken
 }
 
+zl_segment_vcssystem() {
+    zstyle ':vcs_info:*' enable git svn hg
+    zstyle ':vcs_info:git*' formats "%s"
+    vcs_info
+    if [[ ! -z $vcs_info_msg_0_ ]]; then
+        zl_add_left_segment $ZL_VCSSYSTEM_SFG $ZL_VCSSYSTEM_SBG $ZL_VCSSYSTEM_FG $ZL_VCSSYSTEM_BG "$ZL_VCSSYSTEM_ICON $vcs_info_msg_0_"
+    fi
+}
+
 zl_segment_vcsbranch() {
-    zstyle ':vcs_info:*' enable git
-    zstyle ':vcs_info:git*' actionformats "%b"
+    zstyle ':vcs_info:*' enable git svn hg
+    zstyle ':vcs_info:git*' formats "%b"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
         zl_add_left_segment $ZL_VCSBRANCH_SFG $ZL_VCSBRANCH_SBG $ZL_VCSBRANCH_FG $ZL_VCSBRANCH_BG "$ZL_VCSBRANCH_ICON $vcs_info_msg_0_"
@@ -108,8 +118,8 @@ zl_segment_vcsbranch() {
 }
 
 zl_gen_leftvcs_prompt() {
-    autoload -Uz vcs_info
     local vcs_output
+    vcs_output="$vcs_output$(zl_segment_vcssystem)"
     vcs_output="$vcs_output$(zl_segment_vcsbranch)"
     if [[ ! -z $vcs_output ]]; then
         zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTMIDDLEBEGIN
@@ -188,6 +198,12 @@ zl_make_configs() {
     zl_make_default ZL_PROMPTTOKEN_BG !
     zl_make_default ZL_PROMPTTOKEN_SFG magenta
     zl_make_default ZL_PROMPTTOKEN_SBG !
+    
+    zl_make_default ZL_VCSSYSTEM_ICON 
+    zl_make_default ZL_VCSSYSTEM_FG black
+    zl_make_default ZL_VCSSYSTEM_BG yellow
+    zl_make_default ZL_VCSSYSTEM_SFG magenta
+    zl_make_default ZL_VCSSYSTEM_SBG !
     
     zl_make_default ZL_VCSBRANCH_ICON 
     zl_make_default ZL_VCSBRANCH_FG black
