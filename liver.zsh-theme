@@ -23,6 +23,23 @@ zl_make_color() {
     fi
 }
 
+# Make decoration.
+zl_make_decoration() {
+    # 1: fg
+    # 2: bg
+    # 3: bold
+
+    if [[ ! ( -z $1 || $1 == "!" ) ]]; then
+        echo -n "%F{$1}"
+    fi
+    if [[ ! ( -z $2 || $2 == "!" ) ]]; then
+        echo -n "%K{$2}"
+    fi
+    if [[ ! ( -z $3 || $3 == "!" ) ]]; then
+        echo -n "%B"
+    fi
+}
+
 # Reset color.
 zl_reset() {
     echo -n "%{$reset_color%}"
@@ -37,61 +54,63 @@ zl_color_text() {
     echo -n "$(zl_make_color $1 $2)$3$(zl_reset)"
 }
 
+# Decorate a portion of text.
+zl_decorate_text() {
+    # 1: decoration
+    # 2: text
+
+    echo -n "$1$2$(zl_reset)"
+}
+
 # Create a prompt segment.
 zl_make_segment() {
-    # 1: segment_fg
-    # 2: segment_bg
-    # 3: info_fg
-    # 4: info_bg
-    # 5: info
+    # 1: text decoration
+    # 2: segment decoration
+    # 3: text
 
-    zl_color_text $1 $2 $ZL_SEGMENTLEFT
-    zl_color_text $3 $4 $5
-    zl_color_text $1 $2 $ZL_SEGMENTRIGHT
+    zl_decorate_text $2 $ZL_SEGMENTLEFT
+    zl_decorate_text $1 $3
+    zl_decorate_text $2 $ZL_SEGMENTRIGHT
 }
 
 # Create a segment on the left prompt.
 zl_add_left_segment() {
-    # 1: segment_fg
-    # 2: segment_bg
-    # 3: info_fg
-    # 4: info_bg
-    # 5: info
+    # 1: text decoration
+    # 2: segment decoration
+    # 3: text
     
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_CONNECTOR
-    zl_make_segment $1 $2 $3 $4 $5
+    zl_decorate_text $ZL_BASE_DEC $ZL_CONNECTOR
+    zl_make_segment $1 $2 $3
 }
 
 # Create a segment on the right prompt.
 zl_add_right_segment() {
-    # 1: segment_fg
-    # 2: segment_bg
-    # 3: info_fg
-    # 4: info_bg
-    # 5: info
+    # 1: text decoration
+    # 2: segment decoration
+    # 3: text
     
-    zl_make_segment $1 $2 $3 $4 $5
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_CONNECTOR
+    zl_make_segment $1 $2 $3
+    zl_decorate_text $ZL_BASE_DEC $ZL_CONNECTOR
 }
 
 # Create a segment displaying your username.
 zl_segment_user() {
-    zl_add_left_segment $ZL_USERNAME_SFG $ZL_USERNAME_SBG $ZL_USERNAME_FG $ZL_USERNAME_BG "$ZL_USERNAME_ICON %n"
+    zl_add_left_segment $ZL_USERNAME_DEC $ZL_USERNAME_SDEC "$ZL_USERNAME_ICON %n"
 }
 
 # Create a segment displaying your hostname.
 zl_segment_hostname() {
-    zl_add_left_segment $ZL_HOSTNAME_SFG $ZL_HOSTNAME_SBG $ZL_HOSTNAME_FG $ZL_HOSTNAME_BG "$ZL_HOSTNAME_ICON %M"
+    zl_add_left_segment $ZL_HOSTNAME_DEC $ZL_HOSTNAME_SDEC "$ZL_HOSTNAME_ICON %M"
 }
 
 # Create a segment displaying your current working directory.
 zl_segment_path() {
-    zl_add_left_segment $ZL_PATH_SFG $ZL_PATH_SBG $ZL_PATH_FG $ZL_PATH_BG "$ZL_PATH_ICON %~"
+    zl_add_left_segment $ZL_PATH_DEC $ZL_PATH_SDEC "$ZL_PATH_ICON %~"
 }
 
 # Generate the top-left prompt.
 zl_gen_leftup_prompt() {
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTUPBEGIN
+    zl_decorate_text $ZL_BASE_DEC $ZL_LEFTUPBEGIN
     zl_segment_user
     zl_segment_hostname
     zl_segment_path
@@ -106,12 +125,12 @@ zl_prompttoken_usercheck() {
 
 # Create a segment displaying the prompt token.
 zl_segment_prompttoken() {
-    zl_add_left_segment $ZL_PROMPTTOKEN_SFG $ZL_PROMPTTOKEN_SBG $ZL_PROMPTTOKEN_FG $ZL_PROMPTTOKEN_BG $(zl_prompttoken_usercheck)
+    zl_add_left_segment $ZL_PROMPTTOKEN_DEC $ZL_PROMPTTOKEN_SDEC $(zl_prompttoken_usercheck)
 }
 
 # Generate the bottom-left prompt.
 zl_gen_leftdown_prompt() {
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTDOWNBEGIN
+    zl_decorate_text $ZL_BASE_DEC $ZL_LEFTDOWNBEGIN
     zl_segment_prompttoken
 }
 
@@ -121,7 +140,7 @@ zl_segment_vcssystem() {
     zstyle ':vcs_info:git*' formats "%s"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
-        zl_add_left_segment $ZL_VCSSYSTEM_SFG $ZL_VCSSYSTEM_SBG $ZL_VCSSYSTEM_FG $ZL_VCSSYSTEM_BG "$ZL_VCSSYSTEM_ICON $vcs_info_msg_0_"
+        zl_add_left_segment $ZL_VCSSYSTEM_DEC $ZL_VCSSYSTEM_SDEC "$ZL_VCSSYSTEM_ICON $vcs_info_msg_0_"
     fi
 }
 
@@ -131,7 +150,7 @@ zl_segment_vcsbranch() {
     zstyle ':vcs_info:git*' formats "%b"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
-        zl_add_left_segment $ZL_VCSBRANCH_SFG $ZL_VCSBRANCH_SBG $ZL_VCSBRANCH_FG $ZL_VCSBRANCH_BG "$ZL_VCSBRANCH_ICON $vcs_info_msg_0_"
+        zl_add_left_segment $ZL_VCSBRANCH_DEC $ZL_VCSBRANCH_SDEC "$ZL_VCSBRANCH_ICON $vcs_info_msg_0_"
     fi
 }
 
@@ -141,7 +160,7 @@ zl_segment_vcspath() {
     zstyle ':vcs_info:git*' formats "%S"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
-        zl_add_left_segment $ZL_VCSPATH_SFG $ZL_VCSPATH_SBG $ZL_VCSPATH_FG $ZL_VCSPATH_BG "$ZL_VCSPATH_ICON $vcs_info_msg_0_"
+        zl_add_left_segment $ZL_VCSPATH_DEC $ZL_VCSPATH_SDEC "$ZL_VCSPATH_ICON $vcs_info_msg_0_"
     fi
 }
 
@@ -155,7 +174,7 @@ zl_segment_vcsmeta() {
     zstyle ':vcs_info:*' unstagedstr $ZL_VCSMETA_UNSTAGED_ICON
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
-        zl_add_left_segment $ZL_VCSMETA_SFG $ZL_VCSMETA_SBG $ZL_VCSMETA_FG $ZL_VCSMETA_BG "$ZL_VCSMETA_ICON $vcs_info_msg_0_"
+        zl_add_left_segment $ZL_VCSMETA_DEC $ZL_VCSMETA_SDEC "$ZL_VCSMETA_ICON $vcs_info_msg_0_"
     fi
 }
 
@@ -167,19 +186,19 @@ zl_gen_leftvcs_prompt() {
     vcs_output="$vcs_output$(zl_segment_vcspath)"
     vcs_output="$vcs_output$(zl_segment_vcsmeta)"
     if [[ ! -z $vcs_output ]]; then
-        zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_LEFTMIDDLEBEGIN
+        zl_decorate_text $ZL_BASE_DEC $ZL_LEFTMIDDLEBEGIN
         echo -n $vcs_output
     fi
 }
 
 # Generate the top-right prompt.
 zl_gen_rightup_prompt() {
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_RIGHTUPBEGIN
+    zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTUPBEGIN
 }
 
 # Generate the bottom-right prompt.
 zl_gen_rightdown_prompt() {
-    zl_color_text $ZL_BASE_FG $ZL_BASE_BG $ZL_RIGHTDOWNBEGIN
+    zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTDOWNBEGIN
 }
 
 # Generate the left prompt.
@@ -194,7 +213,7 @@ zl_gen_prompt() {
     
     zl_gen_leftdown_prompt
     echo -n " "
-    zl_color_text $ZL_POINTER_FG $ZL_POINTER_BG $ZL_PROMPTPOINTER
+    zl_decorate_text $ZL_POINTER_DEC $ZL_PROMPTPOINTER
     echo -n " "
 }
 
@@ -241,104 +260,68 @@ zl_make_configs() {
     # Token used after the prompt and before the text input field where the user types commands.
     zl_make_default ZL_PROMPTPOINTER ➤
     
-    # Foreground colour for the prompt.
-    zl_make_default ZL_BASE_FG magenta
-    # Background colour for the prompt.
-    zl_make_default ZL_BASE_BG !
-    # Foreground colour of the prompt pointer.
-    zl_make_default ZL_POINTER_FG green
-    # Background colour of the prompt pointer.
-    zl_make_default ZL_POINTER_BG !
+    # Colour of the prompt.
+    zl_make_default ZL_BASE_DEC "$(zl_make_decoration magenta ! !)"
+    # Colour of the prompt pointer.
+    zl_make_default ZL_POINTER_DEC "$(zl_make_decoration green ! !)"
 
     # Icon at the start of the segment that displays your username.
     zl_make_default ZL_USERNAME_ICON ⚉
-    # Foreground colour for your username.
-    zl_make_default ZL_USERNAME_FG cyan
-    # Background colour for your username.
-    zl_make_default ZL_USERNAME_BG !
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your username.
-    zl_make_default ZL_USERNAME_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your username.
-    zl_make_default ZL_USERNAME_SBG !
+    # Colour of your username.
+    zl_make_default ZL_USERNAME_DEC "$(zl_make_decoration cyan ! !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_USERNAME_SDEC "$(zl_make_decoration magenta ! !)"
 
     # Icon at the start of the segment that displays your hostname.
     zl_make_default ZL_HOSTNAME_ICON 🖵
-    # Foreground colour for your hostname.
-    zl_make_default ZL_HOSTNAME_FG red
-    # Background colour for your hostname.
-    zl_make_default ZL_HOSTNAME_BG !
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your hostname.
-    zl_make_default ZL_HOSTNAME_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your hostname.
-    zl_make_default ZL_HOSTNAME_SBG !
+    # Colour of your hostname.
+    zl_make_default ZL_HOSTNAME_DEC "$(zl_make_decoration red ! !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_HOSTNAME_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Icon at the start of the segment that displays your current working directory.
     zl_make_default ZL_PATH_ICON ⤇
-    # Foreground colour for your current working directory.
-    zl_make_default ZL_PATH_FG yellow
-    # Background colour for your current working directory.
-    zl_make_default ZL_PATH_BG !
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your current working directory.
-    zl_make_default ZL_PATH_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your current working directory.
-    zl_make_default ZL_PATH_SBG !
+    # Colour of your current working directory.
+    zl_make_default ZL_PATH_DEC "$(zl_make_decoration yellow ! !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_PATH_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Symbol used to indicate that you are logged into the terminal as a normal user.
     zl_make_default ZL_USER_PROMPTTOKEN \$
     # Symbol used to indicate that you are logged into the terminal as root.
     zl_make_default ZL_ROOT_PROMPTTOKEN \#
-    # Foreground colour for your prompt token.
-    zl_make_default ZL_PROMPTTOKEN_FG white
-    # Background colour for your prompt token.
-    zl_make_default ZL_PROMPTTOKEN_BG !
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your prompt token.
-    zl_make_default ZL_PROMPTTOKEN_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for your prompt token.
-    zl_make_default ZL_PROMPTTOKEN_SBG !
+    # Colour of the prompt token.
+    zl_make_default ZL_PROMPTTOKEN_DEC "$(zl_make_decoration white ! !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_PROMPTTOKEN_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Icon at the start of the segment that displays the VCS system used in this directory.
     zl_make_default ZL_VCSSYSTEM_ICON 
-    # Foreground colour for the VCS system used in this directory.
-    zl_make_default ZL_VCSSYSTEM_FG black
-    # Background colour for the VCS system used in this directory.
-    zl_make_default ZL_VCSSYSTEM_BG yellow
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the VCS system used in this directory.
-    zl_make_default ZL_VCSSYSTEM_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the VCS system used in this directory.
-    zl_make_default ZL_VCSSYSTEM_SBG !
+    # Colour for the name of the VCS system used in the current working directory.
+    zl_make_default ZL_VCSSYSTEM_DEC "$(zl_make_decoration black yellow !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_VCSSYSTEM_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Icon at the start of the segment that displays the current branch.
     zl_make_default ZL_VCSBRANCH_ICON 
-    # Foreground colour for the current branch.
-    zl_make_default ZL_VCSBRANCH_FG black
-    # Background colour for the current branch.
-    zl_make_default ZL_VCSBRANCH_BG green
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the current branch.
-    zl_make_default ZL_VCSBRANCH_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the current branch.
-    zl_make_default ZL_VCSBRANCH_SBG !
+    # Colour for the name of the current branch in the current repo.
+    zl_make_default ZL_VCSBRANCH_DEC "$(zl_make_decoration black green !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_VCSBRANCH_SDEC "$(zl_make_decoration magenta ! !)"
 
     # Icon at the start of the segment that displays the current working directory relative to the root of the repository.
     zl_make_default ZL_VCSPATH_ICON ⤇
-    # Foreground colour for the current working directory relative to the root of the repository.
-    zl_make_default ZL_VCSPATH_FG white
-    # Background colour for the current working directory relative to the root of the repository.
-    zl_make_default ZL_VCSPATH_BG blue
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the current working directory relative to the root of the repository.
-    zl_make_default ZL_VCSPATH_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the current working directory relative to the root of the repository.
-    zl_make_default ZL_VCSPATH_SBG !
+    # Colour for the current path relative to the root of the repo.
+    zl_make_default ZL_VCSPATH_DEC "$(zl_make_decoration white cyan !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_VCSPATH_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Icon at the start of the segment that displays the repository's meta info.
     zl_make_default ZL_VCSMETA_ICON 🛈
-    # Foreground colour for the repository's meta info.
-    zl_make_default ZL_VCSMETA_FG white
-    # Background colour for the repository's meta info.
-    zl_make_default ZL_VCSMETA_BG magenta
-    # Foreground colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the repository's meta info.
-    zl_make_default ZL_VCSMETA_SFG magenta
-    # Background colour for ZL_SEGMENTLEFT and ZL_SEGMENTRIGHT when used in the segment for the repository's meta info.
-    zl_make_default ZL_VCSMETA_SBG !
+    # Colour for meta data about the current repo.
+    zl_make_default ZL_VCSMETA_DEC "$(zl_make_decoration white magenta !)"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_VCSMETA_SDEC "$(zl_make_decoration magenta ! !)"
     
     # Icon used to indicate the presence of an unstaged action.
     zl_make_default ZL_VCSMETA_UNSTAGED_ICON +
