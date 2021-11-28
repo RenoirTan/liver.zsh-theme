@@ -261,67 +261,67 @@ zl_make_configs() {
     zl_make_default ZL_PROMPTPOINTER ➤
     
     # Colour of the prompt.
-    zl_make_default ZL_BASE_DEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_BASE_DEC "$(zl_make_decoration 147 ! ! )"
     # Colour of the prompt pointer.
-    zl_make_default ZL_POINTER_DEC "$(zl_make_decoration green ! !)"
+    zl_make_default ZL_POINTER_DEC "$(zl_make_decoration 46 ! ! )"
 
     # Icon at the start of the segment that displays your username.
     zl_make_default ZL_USERNAME_ICON ⚉
     # Colour of your username.
-    zl_make_default ZL_USERNAME_DEC "$(zl_make_decoration cyan ! !)"
+    zl_make_default ZL_USERNAME_DEC "$(zl_make_decoration 177 ! ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_USERNAME_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_USERNAME_SDEC "$(zl_make_decoration 147 ! ! )"
 
     # Icon at the start of the segment that displays your hostname.
     zl_make_default ZL_HOSTNAME_ICON 🖵
     # Colour of your hostname.
-    zl_make_default ZL_HOSTNAME_DEC "$(zl_make_decoration red ! !)"
+    zl_make_default ZL_HOSTNAME_DEC "$(zl_make_decoration 197 ! ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_HOSTNAME_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_HOSTNAME_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays your current working directory.
     zl_make_default ZL_PATH_ICON ⤇
     # Colour of your current working directory.
-    zl_make_default ZL_PATH_DEC "$(zl_make_decoration yellow ! !)"
+    zl_make_default ZL_PATH_DEC "$(zl_make_decoration 214 ! ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_PATH_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_PATH_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Symbol used to indicate that you are logged into the terminal as a normal user.
     zl_make_default ZL_USER_PROMPTTOKEN \$
     # Symbol used to indicate that you are logged into the terminal as root.
     zl_make_default ZL_ROOT_PROMPTTOKEN \#
     # Colour of the prompt token.
-    zl_make_default ZL_PROMPTTOKEN_DEC "$(zl_make_decoration white ! !)"
+    zl_make_default ZL_PROMPTTOKEN_DEC "$(zl_make_decoration 255 ! ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_PROMPTTOKEN_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_PROMPTTOKEN_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays the VCS system used in this directory.
     zl_make_default ZL_VCSSYSTEM_ICON 
     # Colour for the name of the VCS system used in the current working directory.
-    zl_make_default ZL_VCSSYSTEM_DEC "$(zl_make_decoration black yellow !)"
+    zl_make_default ZL_VCSSYSTEM_DEC "$(zl_make_decoration 235 197 ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_VCSSYSTEM_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_VCSSYSTEM_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays the current branch.
     zl_make_default ZL_VCSBRANCH_ICON 
     # Colour for the name of the current branch in the current repo.
-    zl_make_default ZL_VCSBRANCH_DEC "$(zl_make_decoration black green !)"
+    zl_make_default ZL_VCSBRANCH_DEC "$(zl_make_decoration 235 214 ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_VCSBRANCH_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_VCSBRANCH_SDEC "$(zl_make_decoration 147 ! ! )"
 
     # Icon at the start of the segment that displays the current working directory relative to the root of the repository.
     zl_make_default ZL_VCSPATH_ICON ⤇
     # Colour for the current path relative to the root of the repo.
-    zl_make_default ZL_VCSPATH_DEC "$(zl_make_decoration white cyan !)"
+    zl_make_default ZL_VCSPATH_DEC "$(zl_make_decoration 235 46 ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_VCSPATH_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_VCSPATH_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays the repository's meta info.
     zl_make_default ZL_VCSMETA_ICON 🛈
     # Colour for meta data about the current repo.
-    zl_make_default ZL_VCSMETA_DEC "$(zl_make_decoration white magenta !)"
+    zl_make_default ZL_VCSMETA_DEC "$(zl_make_decoration 255 62 ! )"
     # Colour of the segment delimiters.
-    zl_make_default ZL_VCSMETA_SDEC "$(zl_make_decoration magenta ! !)"
+    zl_make_default ZL_VCSMETA_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon used to indicate the presence of an unstaged action.
     zl_make_default ZL_VCSMETA_UNSTAGED_ICON +
