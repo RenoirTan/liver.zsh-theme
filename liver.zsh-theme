@@ -137,7 +137,7 @@ zl_gen_leftdown_prompt() {
 # # Create a segment displaying the VCS system being used in the current directory.
 zl_segment_vcssystem() {
     zstyle ':vcs_info:*' enable git svn hg
-    zstyle ':vcs_info:git*' formats "%s"
+    zstyle ':vcs_info:*' formats "%s"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
         zl_add_left_segment $ZL_VCSSYSTEM_DEC $ZL_VCSSYSTEM_SDEC "$ZL_VCSSYSTEM_ICON $vcs_info_msg_0_"
@@ -147,7 +147,7 @@ zl_segment_vcssystem() {
 # Create a segment displaying the branch name in the current directory.
 zl_segment_vcsbranch() {
     zstyle ':vcs_info:*' enable git svn hg
-    zstyle ':vcs_info:git*' formats "%b"
+    zstyle ':vcs_info:*' formats "%b"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
         zl_add_left_segment $ZL_VCSBRANCH_DEC $ZL_VCSBRANCH_SDEC "$ZL_VCSBRANCH_ICON $vcs_info_msg_0_"
@@ -157,7 +157,7 @@ zl_segment_vcsbranch() {
 # Create a segment displaying the current relative path to the repository's root.
 zl_segment_vcspath() {
     zstyle ':vcs_info:*' enable git svn hg
-    zstyle ':vcs_info:git*' formats "%S"
+    zstyle ':vcs_info:*' formats "%S"
     vcs_info
     if [[ ! -z $vcs_info_msg_0_ ]]; then
         zl_add_left_segment $ZL_VCSPATH_DEC $ZL_VCSPATH_SDEC "$ZL_VCSPATH_ICON $vcs_info_msg_0_"
@@ -169,7 +169,7 @@ zl_segment_vcsmeta() {
     zstyle ':vcs_info:*' enable git svn hg
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
-    zstyle ':vcs_info:git*' formats "%u%c"
+    zstyle ':vcs_info:*' formats "%u%c"
     zstyle ':vcs_info:*' stagedstr $ZL_VCSMETA_STAGED_ICON
     zstyle ':vcs_info:*' unstagedstr $ZL_VCSMETA_UNSTAGED_ICON
     vcs_info
