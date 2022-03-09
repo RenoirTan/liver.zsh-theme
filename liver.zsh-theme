@@ -128,10 +128,16 @@ zl_segment_prompttoken() {
     zl_add_left_segment $ZL_PROMPTTOKEN_DEC $ZL_PROMPTTOKEN_SDEC $(zl_prompttoken_usercheck)
 }
 
+# Create a segment displaying the return code of the previous command.
+zl_segment_returncode() {
+    zl_add_left_segment $ZL_RETURNCODE_DEC $ZL_PROMPTTOKEN_SDEC %?
+}
+
 # Generate the bottom-left prompt.
 zl_gen_leftdown_prompt() {
     zl_decorate_text $ZL_BASE_DEC $ZL_LEFTDOWNBEGIN
     zl_segment_prompttoken
+    zl_segment_returncode
 }
 
 # # Create a segment displaying the VCS system being used in the current directory.
@@ -294,6 +300,11 @@ zl_make_configs() {
     zl_make_default ZL_PROMPTTOKEN_DEC "$(zl_make_decoration 255 ! ! )"
     # Colour of the segment delimiters.
     zl_make_default ZL_PROMPTTOKEN_SDEC "$(zl_make_decoration 147 ! ! )"
+
+    # Colour of the return code
+	zl_make_default ZL_RETURNCODE_DEC "$(zl_make_decoration 255 ! ! )"
+	# Colour of the segment delimiters.
+	zl_make_default ZL_RETURNCODE_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays the VCS system used in this directory.
     zl_make_default ZL_VCSSYSTEM_ICON 
