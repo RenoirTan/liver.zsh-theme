@@ -4,9 +4,7 @@ This is pretty much just [liver](https://github.com/RenoirTan/liver) but for zsh
 
 ## Screenshots
 
-![Normal Prompt](https://raw.githubusercontent.com/RenoirTan/liver.zsh-theme/main/screenshots/normal.png)
-
-![Git Repo Prompt](https://raw.githubusercontent.com/RenoirTan/liver.zsh-theme/main/screenshots/git_repo.png)
+![Example Screenshot with Terminal](https://raw.githubusercontent.com/RenoirTan/liver.zsh-theme/main/screenshots/terminal.png)
 
 ## Installation
 
