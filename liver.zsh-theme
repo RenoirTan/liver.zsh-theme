@@ -157,7 +157,7 @@ zl_gen_leftup_prompt() {
     local preprompt_len=$((preprompt_len + $(zl_display_len $path)))
     echo -n $path
     local connector_len=$((COLUMNS - ${preprompt_len} - ${#ZL_RIGHTUPBEGIN} - 1))
-    zl_decorate_text $ZL_BASE_DEC "$(zl_padleft $connector_len $ZL_CONNECTOR)"
+    zl_decorate_text $ZL_BASE_DEC "$(zl_padleft $connector_len $ZL_RIGHTEDGECONNECTOR)"
     zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTUPBEGIN
 }
 
@@ -253,8 +253,8 @@ zl_gen_leftvcs_preprompt() {
     zl_decorate_text $ZL_BASE_DEC $ZL_LEFTMIDDLEBEGIN
     echo -n $vcs_system
     echo -n $vcs_branch
-    echo -n $vcs_meta
     echo -n $vcs_path
+    echo -n $vcs_meta
 }
 
 # Generate the VCS prompt.
@@ -263,19 +263,9 @@ zl_gen_leftvcs_prompt() {
     if [[ ! -z $vcs_output ]]; then
         local connector_len=$((COLUMNS - $(zl_display_len $vcs_output) - ${#ZL_RIGHTMIDDLEBEGIN} - 1))
         echo -n $vcs_output
-        zl_decorate_text $ZL_BASE_DEC $(zl_padleft $connector_len $ZL_CONNECTOR)
+        zl_decorate_text $ZL_BASE_DEC $(zl_padleft $connector_len $ZL_RIGHTEDGECONNECTOR)
         zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTMIDDLEBEGIN
     fi
-}
-
-# Generate the top-right prompt.
-zl_gen_rightup_prompt() {
-    zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTUPBEGIN
-}
-
-# Generate the bottom-right prompt.
-zl_gen_rightdown_prompt() {
-    zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTDOWNBEGIN
 }
 
 # Generate the left prompt.
@@ -294,12 +284,9 @@ zl_gen_prompt() {
     echo -n " "
 }
 
-# Generate the right prompt.
-# Does not work properly at the moment
+# Generate the right prompt
 zl_gen_rprompt() {
-    # zl_gen_rightup_prompt
-    # echo
-    zl_gen_rightdown_prompt
+    zl_decorate_text $ZL_BASE_DEC $ZL_RIGHTDOWNBEGIN
 }
 
 # Generate the full prompt (final result).
@@ -336,6 +323,8 @@ zl_make_configs() {
     zl_make_default ZL_RIGHTDOWNBEGIN ┘
     # The symbol used to connect segments.
     zl_make_default ZL_CONNECTOR ─
+    # The symbol used to connect last segment of a line to the right edge symbol
+    zl_make_default ZL_RIGHTEDGECONNECTOR ─
     # The symbol used at the start of a segment. (Think of it as an open bracket)
     zl_make_default ZL_SEGMENTLEFT [
     # The symbol used at the end of a segment.
@@ -379,9 +368,9 @@ zl_make_configs() {
     zl_make_default ZL_PROMPTTOKEN_SDEC "$(zl_make_decoration 147 ! ! )"
 
     # Colour of the return code
-	  zl_make_default ZL_RETURNCODE_DEC "$(zl_make_decoration 255 ! ! )"
-	  # Colour of the segment delimiters.
-	  zl_make_default ZL_RETURNCODE_SDEC "$(zl_make_decoration 147 ! ! )"
+    zl_make_default ZL_RETURNCODE_DEC "$(zl_make_decoration 255 ! ! )"
+    # Colour of the segment delimiters.
+    zl_make_default ZL_RETURNCODE_SDEC "$(zl_make_decoration 147 ! ! )"
     
     # Icon at the start of the segment that displays the VCS system used in this directory.
     zl_make_default ZL_VCSSYSTEM_ICON 

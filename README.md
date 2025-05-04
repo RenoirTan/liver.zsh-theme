@@ -15,7 +15,3 @@ Then, copy the `liver.zsh-theme` file to `~/.oh-my-zsh/themes` and set `ZSH_THEM
 ## Further customisation
 
 You can override some of the icons, colours and outputs to something that you like by setting the corresponding variable in `~/.zshrc` to override the defaults used in my theme. You can check out which variables you can override in the `zl_make_configs` function.
-
-## Problems
-
- - Cannot make RPROMPT multiline for some reason. It just does not show RPROMPT if it straddles more than 1 line. However, if zsh is spawned in a git repo, vcs_info output gets shown.
